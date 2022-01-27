@@ -1,0 +1,81 @@
+DBauth
+
+Simple and illustrative authentication system
+
+Uses the [sqlite-jdbc-crypt](https://github.com/Willena/sqlite-jdbc-crypt), forked
+from the official Xerial JDBC Driver, to build and encrypt a very simple database.
+
+Has a simple JavaFX GUI with user interaction to demonstrate the encryption API.
+
+Great part of the encryption algorithms were extracted from 
+[Baeldung](https://github.com/eugenp/tutorials/tree/master/core-java-modules/core-java-security-algorithms).
+
+Following is presented the methodology used for encrypting and decrypting the 
+database and user keys, and validating user access.
+
+Encryption methodology
+---
+
+* Assumptions
+
+1. The database is encrypted by the JDBC driver using CHACHA20 as default cipher
+2. Driver needs a key. A unique 256-bit random key is generated randomly at first
+3. The dabatabase key is salted and encrypted with the user password
+4. DB hashes and salt are stored in plain text on the target filesystem
+5. First, user password decrypts one of the keys of the plain text;
+6. then, it checks if salted password hash matches with the one stored in database
+7. Permissions are granted at service level (i.e anyone with a key can read and write the DB)
+
+* Legend (variables are not the same in code)
+
+- database_key      : Unique key to decrypt the database
+- database_key_salt : Plain text unique random 256-bit salt
+- user_key          : Personal user key. There is one for each user
+- user_key_salt     : Plain text random 256-bit salt. One for each user
+- database_enc_key  : Hashed and salted database key
+- user_enc_key      : Hashed and salted personal user key
+
+* Steps to reproduce the authentication process
+
+1. A database is created when the software is first installed. A new user with
+root privileges is created. The database_key is generated randomly using a
+secure algorithm (PKCS5Padding) Pand its salt (database_key_salt) is generated 
+randomly and stored in plain text somewhere in the filesystem.
+
+2. The database_key is encrypted using the user_key + database_key_salt
+generating the database_enc_key. The database_key is the key used to
+encrypt/decrypt database contents. database_enc_key is the key used to
+encrypt/decrypt the database_key, and it will be added to a hashmap and
+stored in plain text.  N users with database access must generate a hashmap
+of size N. Each user_key + database_key_salt would create a different hash
+of the encrypted database_key (except if password are the same).
+
+3. When the user trys to login, the inputed password combined with
+database_key_salt is hashed with some strong algorithm (the same used in
+step 1) regenerating one of the database_enc_key. 
+
+4. The generated key is used against each entry in the hashmap. If the provided
+password is valid, that means that the database_key was decrypted and can be
+used to decrypt the database contents.
+
+5. The provided user credentials is compared against the data present in
+database. If it matches, user access is granted. 
+
+    5.1 Access privileges is provided through analysis of another hashmap 
+    containing registered admin hashes.
+
+    5.2 Steps 5 and 5.1 are redundant and only works on a service level. An
+    attacker who managed to crack one of the keys in the hashmap would have
+    escalated the privileges by now.
+
+* Warning
+
+If the user does not have administrator privileges, but has physical access to
+the database and a valid key, he can escalate the access level as he will have
+read and write permission to the database (as mentioned before).
+
+Database encrypted keys can have same hashes for multiple users if passwords are
+the same, that's because there is only one database salt. However, different 
+random  salt are generated for each user and they're stored in the encrypted 
+database. It is highly encouraged that one generate a random unique database
+salt for each user too, in order to comply to high security standards.
