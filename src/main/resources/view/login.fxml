@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane prefHeight="249.0" prefWidth="272.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.felix.simpledb.controller.LoginController">
+
+    <VBox alignment="CENTER" spacing="5" StackPane.alignment="CENTER">
+        <padding> <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" /> </padding>
+        <TextField fx:id="username" promptText="Username" />
+        <PasswordField fx:id="password" promptText="Password" />
+        <Button text="Login" onMouseClicked="#onLogin"/>
+    </VBox>
+
+</StackPane>

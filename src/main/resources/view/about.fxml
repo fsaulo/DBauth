@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<StackPane xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.felix.simpledb.controller.AboutController">
+   <children>
+      <VBox alignment="CENTER" spacing="10">
+           <padding>
+               <Insets bottom="10" left="10" right="10" top="10" />
+           </padding>
+           <Text text="This is an app that switches view" />
+           <Button onMouseClicked="#onGoBack" text="Go back" />
+       </VBox>
+   </children>
+</StackPane>

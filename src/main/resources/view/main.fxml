@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<?import javafx.geometry.Insets?>
+<StackPane xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.felix.simpledb.controller.MainController">
+    <VBox alignment="CENTER" spacing="10">
+        <padding> <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" /> </padding>
+        <Text text="Hello, this is the main view"/>
+        <HBox alignment="CENTER" spacing="10">
+            <Button onMouseClicked="#onAbout" text="About"/>
+            <Button onMouseClicked="#onLogout" text="Logout"/>
+        </HBox>
+    </VBox>
+</StackPane>
