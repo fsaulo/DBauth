@@ -1,14 +1,12 @@
 DBauth
 
-Simple and illustrative authentication system
-
 Uses the [sqlite-jdbc-crypt](https://github.com/Willena/sqlite-jdbc-crypt), forked
 from the official Xerial JDBC Driver, to build and encrypt a very simple database.
 
-Has a simple JavaFX GUI with user interaction to demonstrate the encryption API.
+It has a simple JavaFX GUI with user interaction to demonstrate the encryption API.
 
-Great part of the encryption algorithms were extracted from 
-[Baeldung](https://github.com/eugenp/tutorials/tree/master/core-java-modules/core-java-security-algorithms).
+Great part of the encryption algorithms were extracted from [Baeldung]
+(https://github.com/eugenp/tutorials/tree/master/core-java-modules/core-java-security-algorithms).
 
 Following is presented the methodology used for encrypting and decrypting the 
 database and user keys, and validating user access.
@@ -76,6 +74,6 @@ read and write permission to the database (as mentioned before).
 
 Database encrypted keys can have same hashes for multiple users if passwords are
 the same, that's because there is only one database salt. However, different 
-random  salt are generated for each user and they're stored in the encrypted 
+random  salts are generated for each user and they're stored in the encrypted 
 database. It is highly encouraged that one generate a random unique database
 salt for each user too, in order to comply to high security standards.
